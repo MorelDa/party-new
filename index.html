@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Party News | Premium Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #ff2d78;
+            --accent-soft: #fff0f5;
+            --text-main: #1a1a1c;
+            --text-secondary: #64748b;
+            --bg-body: #fdfdfd;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        nav {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent); }
+
+        header {
+            padding: 100px 20px 60px;
+            text-align: center;
+            background: radial-gradient(circle at top, var(--accent-soft) 0%, var(--bg-body) 60%);
+        }
+
+        header .edition {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 5rem);
+            color: var(--text-main);
+            line-height: 1;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto 100px;
+            padding: 0 30px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+            border-color: var(--accent-soft);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            height: 3.4em;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f8f8f8;
+            padding-top: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(10, 10, 12, 0.4);
+            backdrop-filter: blur(15px);
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+            animation: modalUp 0.6s var(--transition);
+        }
+
+        @keyframes modalUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px; right: 25px;
+            width: 45px; height: 45px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 24px;
+        }
+
+        .modal-hero { width: 100%; height: 400px; }
+        .modal-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-body { padding: 50px 60px; }
+        .modal-body h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 25px; }
+        .modal-text { font-size: 1.15rem; line-height: 1.8; color: #374151; }
+        .modal-text p { margin-bottom: 20px; }
+
+        footer { padding: 60px 20px; background: #fafafa; border-top: 1px solid #eee; text-align: center; }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 25px; }
+            .modal-body { padding: 40px 25px; }
+            .modal-body h2 { font-size: 1.8rem; }
+            .modal-hero { height: 250px; }
+            .news-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">PARTY<span>.NEWS</span></a>
+        <div style="font-weight: 700; font-size: 0.75rem; color: var(--accent); letter-spacing: 1px;">RADIO PARTY ONLINE</div>
+    </nav>
+
+    <header>
+        <span class="edition">Edición Limitada 2026</span>
+        <h1>Radio Party News</h1>
+    </header>
+
+    <div class="container">
+        <div class="news-grid" id="newsGrid"></div>
+    </div>
+
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-weight: 800; color: var(--text-main); letter-spacing: 2px; margin-bottom: 10px;">RADIO PARTY NEWS</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">© 2026 Conectando con tu ritmo.</p>
+    </footer>
+
+    <script>
+        const noticias = [
+            { id: 1, tag: "ENVIVO", fecha: "Mar 09, 2026", titulo: "TINI en Paraguay: Las mejores imágenes de una noche histórica", img: "https://grupovierci.brightspotcdn.com/dims4/default/61a4634/2147483647/strip/true/crop/3851x2164+0+1377/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/4f/47/e52365e542429ea96248b105f6b4/foto-7-3-26-08-44-55.jpg" },
+            { id: 2, tag: "COLABORACIÓN", fecha: "Mar 09, 2026", titulo: "Manuel Turizo y Maluma rompen las redes con “Apambichao”", img: "https://grupovierci.brightspotcdn.com/dims4/default/c41ba82/2147483647/strip/true/crop/1200x674+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/75/fe/d23dfbf44e35b4f6b3ab5e2ae6c3/manuel-turizo-y-maluma.webp" },
+            { id: 3, tag: "LANZAMIENTO", fecha: "Mar 06, 2026", titulo: "Piso 21 y Yami Safdie: Una unión mágica en “Te Elijo”", img: "https://grupovierci.brightspotcdn.com/dims4/default/c8c50b8/2147483647/strip/true/crop/1300x731+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/5c/9b/78d796d44ae0bc69e07b803dc6a2/diseno-sin-titulo-13-1300x731.webp" },
+            { id: 4, tag: "ESTRENO", fecha: "Mar 06, 2026", titulo: "Tainy revoluciona el género uniendo música y Béisbol", img: "https://grupovierci.brightspotcdn.com/dims4/default/f66cbc1/2147483647/strip/true/crop/1000x562+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/21/2a/bfbed8b34be79b625edc7ff78bf6/tainy.webp" },
+            { id: 5, tag: "RANKING", fecha: "Mar 05, 2026", titulo: "TINI lidera el Ranking E40 con “Una Noche Más”", img: "https://grupovierci.brightspotcdn.com/dims4/default/649ce84/2147483647/strip/true/crop/1080x607+0+39/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/53/1d/a5c7cfce48b48e437f45123b449d/573711062-18552191587063271-4957299295189266681-n-e1772562578229.jpg" },
+            { id: 6, tag: "URBANO", fecha: "Mar 05, 2026", titulo: "Justin Quiles y Lenny Tavárez colaboran en ‘Superarte’", img: "https://grupovierci.brightspotcdn.com/dims4/default/88e72aa/2147483647/strip/true/crop/686x386+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/fe/b8/2a4570c44f609b0f1b84cb7a76b1/hq720-3.jpg" },
+            { id: 7, tag: "TOP HIT", fecha: "Mar 05, 2026", titulo: "Shakira y Beéle presentan “Algo Tú”", img: "https://grupovierci.brightspotcdn.com/dims4/default/46474e4/2147483647/strip/true/crop/1080x607+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/e1/13/a530fdc74eba9cc2397d130ec6bd/shakirabr-20260304-p-3845762544980570617-1-38457615046589805332.jpg" },
+            { id: 8, tag: "K-POP", fecha: "Mar 04, 2026", titulo: "BTS comparte el tracklist de su álbum ‘Arirang’", img: "https://grupovierci.brightspotcdn.com/dims4/default/09f939f/2147483647/strip/true/crop/1024x575+0+12/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/26/4b/1064c7884ba386a3b02ae3218cff/xqzbt3tc.webp" },
+            { id: 9, tag: "ELECTRONICA", fecha: "Mar 03, 2026", titulo: "Alok lidera el Ranking con “Mimosa (Now and Forever)”", img: "https://grupovierci.brightspotcdn.com/dims4/default/eaece39/2147483647/strip/true/crop/686x386+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/c7/4e/5ef2b9684535aad95d9609d74c79/hq720-1.jpg" },
+            { id: 10, tag: "STREAMING", fecha: "Mar 03, 2026", titulo: "Bad Bunny rompió récord de vistas en streaming", img: "https://grupovierci.brightspotcdn.com/dims4/default/0cb9123/2147483647/strip/true/crop/1200x674+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/02/c5/33d3a8b347149735cd4e9dc5ecfb/a87140af-f971-49e3-9406-bace31741f7f-16-9-discover-aspect-ratio-default-0-x1000y444.jpg" },
+            { id: 11, tag: "RECORD", fecha: "Mar 03, 2026", titulo: "“Me Duele” supera el millón de reproducciones", img: "https://grupovierci.brightspotcdn.com/dims4/default/48530e9/2147483647/strip/true/crop/1280x719+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/81/c1/eced9e5c4bf89254412f6ba60e88/fpzrfzwcsofli1lwmmon.jpg" },
+            { id: 12, tag: "NOTICIA", fecha: "Mar 03, 2026", titulo: "Farruko apadrina a joven piloto puertorriqueño", img: "https://grupovierci.brightspotcdn.com/dims4/default/ea84f27/2147483647/strip/true/crop/860x483+0+0/resize/500x281!/quality/90/?url=https://k2-prod-grupo-vierci.s3.us-east-1.amazonaws.com/brightspot/16/97/1f373f6f4d0b8a86558087f027be/farruko-apadrina-al-piloto-boricua-christian-velez-e1772465761758-860x679.jpg" }
+        ];
+
+        const grid = document.getElementById('newsGrid');
+        const modal = document.getElementById('newsModal');
+        const modalContent = document.getElementById('modalContent');
+
+        noticias.forEach(nota => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(nota);
+            card.innerHTML = `
+                <div class="card-img-wrapper"><img src="${nota.img}" alt="Noticia"></div>
+                <div class="card-content">
+                    <span class="tag">${nota.tag}</span>
+                    <h3 class="card-title">${nota.titulo}</h3>
+                    <div class="card-footer"><span>Redacción Party</span><span>${nota.fecha}</span></div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openModal(nota) {
+            modalContent.innerHTML = `
+                <div class="modal-hero"><img src="${nota.img}"></div>
+                <div class="modal-body">
+                    <span class="tag">${nota.tag}</span>
+                    <h2>${nota.titulo}</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px; font-weight: 600;">Publicado el ${nota.fecha}</p>
+                    <div class="modal-text">
+                        <p>En esta cobertura exclusiva de <strong>Radio Party News</strong>, te presentamos todos los pormenores de este acontecimiento que está marcando tendencia en la industria musical actual.</p>
+                        <p>Los fans han reaccionado de manera masiva en redes sociales, posicionando este tema como lo más comentado del día. En Party, nos comprometemos a llevarte la información con la calidad y profesionalismo que te mereces.</p>
+                        <p>No te pierdas nuestra programación diaria para seguir disfrutando de lo mejor de tus artistas favoritos y entrevistas exclusivas que solo encontrarás aquí.</p>
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('closeModal').onclick = () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        window.onclick = (e) => { if(e.target == modal) document.getElementById('closeModal').click(); };
+    </script>
+</body>
+</html>
